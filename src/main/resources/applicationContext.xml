@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd 
+						http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<tx:annotation-driven />
+
+	<context:component-scan base-package="com.rmkane.dominion.dao.impl" />
+	<context:component-scan base-package="com.rmkane.dominion.manager.impl" />
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:/hibernate.properties</value>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hql.dialect}</prop>
+				<prop key="hibernate.show_sql">${hql.showSql}</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="com.rmkane.dominion.domain" />
+	</bean>
+	
+	<bean id="dummyUser" class="com.rmkane.dominion.domain.User">
+		<constructor-arg index="0" type="java.lang.String" value="johndoe"/>
+		<constructor-arg index="1" type="java.lang.String" value="John Doe"/>
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager"
+		p:sessionFactory-ref="sessionFactory">
+	</bean>
+
+</beans>
