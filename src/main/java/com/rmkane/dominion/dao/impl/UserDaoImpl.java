@@ -8,7 +8,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,6 +61,7 @@ public class UserDaoImpl implements UserDao {
 		return (User) query.list().get(0);
 	}
 
+	@Transactional(readOnly = true)
 	public User retrieve(Long id) {
 		logger.info("Retrieving User: #" + id);
 		return (User) currentSession().get(User.class, id);

@@ -29,10 +29,10 @@ public class Main {
 		System.out.printf("\nUser fetched by username!\nId: %d\nUsername: %s\nName: %s\n",
 				user.getId(), user.getUsername(), user.getName());
 
-//		// Retrieve user by user id.
-//		user = userManager.retrieve(user.getId());
-//		System.out.printf("\nUser fetched by ID!\nId: %d\nUsername: %s\nName: %s\n",
-//				user.getId(), user.getUsername(), user.getName());
+		// Retrieve user by user id.
+		user = userManager.retrieve(user.getId());
+		System.out.printf("\nUser fetched by ID!\nId: %d\nUsername: %s\nName: %s\n",
+				user.getId(), user.getUsername(), user.getName());
 
 		// Retrieve all users.
 		List<User> users = userManager.retrieveAll();
